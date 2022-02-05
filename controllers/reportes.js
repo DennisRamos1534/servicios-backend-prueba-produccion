@@ -11,9 +11,9 @@ const crearReporte = async (req, res = response) => {
         await reporteCreado.save();
         res.json({
             ok: true,
-            reporte: [
-                reporteCreado
-            ],
+            // reporte: [
+            //     reporteCreado
+            // ],
         }); 
     } catch (error) {
         console.log(error);
