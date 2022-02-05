@@ -3,22 +3,7 @@ const Reporte = require('../models/reporte');
 
 const crearReporte = async (req, res = response) => {
 
-    // const {nombre, numero, url, direccion, descripcion} = req.body;
-
-    try {
-
-        const reporteCreado = new Reporte(req.body);
-        await reporteCreado.save();
-        res.json({
-            ok: true,
-        }); 
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Hable con el administrador'
-        });
-    }
+    
 }
 
 const allReportes = async (req, res = response) => {
