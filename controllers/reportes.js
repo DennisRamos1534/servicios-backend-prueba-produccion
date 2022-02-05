@@ -11,7 +11,9 @@ const crearReporte = async (req, res = response) => {
         await reporte.save();
         res.json({
             ok: true,
-            reporte,
+            reporte: [
+                reporte
+            ],
         }); 
     } catch (error) {
         console.log(error);
