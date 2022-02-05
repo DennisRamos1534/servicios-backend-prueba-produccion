@@ -1,14 +1,6 @@
 const formprincipal = document.querySelector('.form-principal');
 const errorDiv = document.querySelector('.error');
 
-// usuario.addEventListener('input', (e) => {
-//     console.log(e.target.value);
-// });
-
-// password.addEventListener('input', (e) => {
-//     console.log(e.target.value);
-// });
-
 formprincipal.addEventListener('submit', (e) => {
     e.preventDefault();
     const usuario = document.querySelector('#usuario').value;

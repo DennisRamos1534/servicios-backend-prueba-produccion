@@ -7,12 +7,12 @@ const crearReporte = async (req, res = response) => {
 
     try {
 
-        const reporte = new Reporte(req.body);
-        await reporte.save();
+        const reporteCreado = new Reporte(req.body);
+        await reporteCreado.save();
         res.json({
             ok: true,
             reporte: [
-                reporte
+                reporteCreado
             ],
         }); 
     } catch (error) {
