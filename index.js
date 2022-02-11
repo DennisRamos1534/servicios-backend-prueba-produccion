@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');  // cambio para solucionar el problema 3000
 require('dotenv').config();
 
 // DB config
@@ -7,6 +8,7 @@ require('./database/config').dbConnection();
 
 // App de Express
 const app = express();
+app.use(cors()); // cambio para solucionar el problema 3000
 
 // Lectura y parseo del Body
 app.use(express.json());
