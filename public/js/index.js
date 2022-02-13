@@ -101,35 +101,57 @@ function cargarEventListener() {
 async function reporteCompletado(e) {
     e.preventDefault();
     if(e.target.classList.contains('seleccionar')) {
-        const id = e.target.getAttribute('data-id');
-        const urlActualizar = `http://31.220.31.215:3000/api/reporte/${id}`;
 
-        try {
-            const respActualizar = await fetch(urlActualizar, { 
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "Estas seguro de que deseas completar este reporte",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                const id = e.target.getAttribute('data-id');
+                const urlActualizar = `http://31.220.31.215:3000/api/reporte/${id}`;
+        
+                try {
+                    const respActualizar = await fetch(urlActualizar, { 
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    });
+        
+                    const resultadoActualizar = await respActualizar.json();
+                    if(resultadoActualizar["ok"] == true) {
+                        // Swal.fire(
+                        //     'Actualizado',
+                        //     'El reporte se acompleto correctamente',
+                        //     'success'
+                        // );
+                        const cambiar = e.target.parentElement;
+                        const etiqueta = cambiar.querySelector('a');
+                        etiqueta.classList.remove("pendiente");
+                        etiqueta.classList.remove("seleccionar");
+                        etiqueta.classList.add("terminado");
+                        etiqueta.innerHTML = 'terminado';
+                        // deshabilitamos el btn
+                        etiqueta.disabled = true;
+                    }
+                } catch (error) {
+                    console.log(error);
                 }
-            });
 
-            const resultadoActualizar = await respActualizar.json();
-            if(resultadoActualizar["ok"] == true) {
-                Swal.fire(
-                    'Actualizado',
-                    'El reporte se acompleto correctamente',
-                    'success'
-                );
-                const cambiar = e.target.parentElement;
-                const etiqueta = cambiar.querySelector('a');
-                etiqueta.classList.remove("pendiente");
-                etiqueta.classList.remove("seleccionar");
-                etiqueta.classList.add("terminado");
-                etiqueta.innerHTML = 'terminado';
-                // deshabilitamos el btn
-                etiqueta.disabled = true;
+              Swal.fire(
+                'Actualizado',
+                'El reporte se completo exitosamente',
+                'success'
+              )
             }
-        } catch (error) {
-            console.log(error);
-        }
+        })
+
+        
     }
 }
