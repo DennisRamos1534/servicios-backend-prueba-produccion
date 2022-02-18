@@ -5,7 +5,7 @@ const imagenActiva = document.querySelector('#imagen-activa');
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-    const url = 'http://localhost:3000/api/login/adminrenovar';
+    const url = 'http://31.220.31.215:3000/api/login/adminrenovar';
     const token = localStorage.getItem('x-token');
 
     try {
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             localStorage.setItem('x-token', resultado['token']);
             // hacer el llamado al backend
-            const urlReporte = 'http://localhost:3000/api/reporte';
+            const urlReporte = 'http://31.220.31.215:3000/api/reporte';
 
             try {
                 const respReporte = await fetch(urlReporte, { 
@@ -106,7 +106,7 @@ async function reporteCompletado(e) {
     if(e.target.classList.contains('seleccionar')) {
 
         const id = e.target.getAttribute('data-id');
-        const urlActualizar = `http://localhost:3000/api/reporte/${id}`;
+        const urlActualizar = `http://31.220.31.215:3000/api/reporte/${id}`;
 
         Swal.fire({
             title: 'Estas seguro(a)?',
