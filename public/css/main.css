@@ -45,6 +45,42 @@ body {
     line-height: 1.6;
 }
 
+/** 
+    BARRA DE NAVEGACION
+**/
+
+.barra-navegacion {
+    width: 100%;
+    padding: 5px 100px;
+    /* background-color: rgb(42, 55, 64); */
+    /* background-color: #E8C39E; */
+    /* background-color: #D29BFD; */
+    background-color: #93EDEA;
+    margin-bottom: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.barra-navegacion img {
+    height: 80px;
+    cursor: pointer;
+}
+
+.items-navegacion {
+    margin-top: 25px;
+}
+
+.items-navegacion a {
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    margin-left: 40px;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+/** fin de barra de navegacion **/
+
 .material-icon {
     font-size: 16px;
 }

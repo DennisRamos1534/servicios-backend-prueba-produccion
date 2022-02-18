@@ -4,7 +4,7 @@
 
  const {Router} = require('express');
  const { check } = require('express-validator');
-const { crearReporte, allReportes, filtrarReporte, deleteReporte, actualizarEstado } = require('../controllers/reportes');
+const { crearReporte, allReportes, filtrarReporte, deleteReporte, actualizarEstado, reportesCompletados } = require('../controllers/reportes');
  const { validarCampos } = require('../middlewares/validar-campos');
  
  const router = Router();
@@ -23,6 +23,7 @@ const { crearReporte, allReportes, filtrarReporte, deleteReporte, actualizarEsta
  ],crearReporte);
  
  router.get('/', allReportes);
+ router.get('/completado', reportesCompletados);
  
  router.post('/filtrado', [
     check('numero', 'El numero es obligatorio y tiene que ser 10 digitos').not().isEmpty().isLength({min: 9, max: 11}),

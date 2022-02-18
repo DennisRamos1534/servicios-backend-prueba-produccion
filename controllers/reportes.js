@@ -25,7 +25,26 @@ const crearReporte = async (req, res = response) => {
 const allReportes = async (req, res = response) => {
 
     try {
-        const reportes = await Reporte.find();
+        const reportes = await Reporte.find({estado: false});
+        reportes.reverse();
+
+        res.json({
+            ok: true,
+            reportes
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+}
+
+const reportesCompletados = async (req, res = response) => {
+
+    try {
+        const reportes = await Reporte.find({estado: true});
         reportes.reverse();
 
         res.json({
@@ -86,5 +105,6 @@ module.exports = {
     allReportes,
     filtrarReporte,
     deleteReporte,
-    actualizarEstado
+    actualizarEstado,
+    reportesCompletados
 }
