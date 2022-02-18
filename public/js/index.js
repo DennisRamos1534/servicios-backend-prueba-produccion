@@ -1,8 +1,11 @@
 var tbody = document.querySelector('.tbody');
+const btnCierra = document.querySelector('#btn-cierra');
+const lightbox = document.querySelector('#contenedor-principal');
+const imagenActiva = document.querySelector('#imagen-activa');
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-    const url = 'http://31.220.31.215:3000/api/login/adminrenovar';
+    const url = 'http://localhost:3000/api/login/adminrenovar';
     const token = localStorage.getItem('x-token');
 
     try {
@@ -21,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             localStorage.setItem('x-token', resultado['token']);
             // hacer el llamado al backend
-            const urlReporte = 'http://31.220.31.215:3000/api/reporte';
+            const urlReporte = 'http://localhost:3000/api/reporte';
 
             try {
                 const respReporte = await fetch(urlReporte, { 
@@ -101,36 +104,73 @@ function cargarEventListener() {
 async function reporteCompletado(e) {
     e.preventDefault();
     if(e.target.classList.contains('seleccionar')) {
-        
+
         const id = e.target.getAttribute('data-id');
-        const urlActualizar = `http://31.220.31.215:3000/api/reporte/${id}`;
+        const urlActualizar = `http://localhost:3000/api/reporte/${id}`;
 
-        try {
-            const respActualizar = await fetch(urlActualizar, { 
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+        Swal.fire({
+            title: 'Estas seguro(a)?',
+            text: "Deseas acompletar el reporte?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si'
+        }).then((result) => {
+            if (result.isConfirmed) {
 
-            const resultadoActualizar = await respActualizar.json();
-            if(resultadoActualizar["ok"] == true) {
+                hacerPeticion(e, urlActualizar);
+
                 Swal.fire(
-                    'Actualizado',
-                    'El reporte se acompleto correctamente',
-                    'success'
-                );
-                const cambiar = e.target.parentElement;
-                const etiqueta = cambiar.querySelector('a');
-                etiqueta.classList.remove("pendiente");
-                etiqueta.classList.remove("seleccionar");
-                etiqueta.classList.add("terminado");
-                etiqueta.innerHTML = 'terminado';
-                // deshabilitamos el btn
-                etiqueta.disabled = true;
+                'Actualizado',
+                'El reporte se acompleto correctamente',
+                'success'
+                )
             }
-        } catch (error) {
-            console.log(error);
-        }
+        })
+    }
+
+    if(e.target.classList.contains('imagen')) {
+        // aqui va la funcionalidad de colorbox
+        abreLightbox(e);
     }
 }
+
+async function hacerPeticion(e, urlActualizarPen) {
+    try {
+        const respActualizar = await fetch(urlActualizarPen, { 
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        const resultadoActualizar = await respActualizar.json();
+        if(resultadoActualizar["ok"] == true) {
+            // Swal.fire(
+            //     'Actualizado',
+            //     'El reporte se acompleto correctamente',
+            //     'success'
+            // );
+            const cambiar = e.target.parentElement;
+            const etiqueta = cambiar.querySelector('a');
+            etiqueta.classList.remove("pendiente");
+            etiqueta.classList.remove("seleccionar");
+            etiqueta.classList.add("terminado");
+            etiqueta.innerHTML = 'terminado';
+            // deshabilitamos el btn
+            etiqueta.disabled = true;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const abreLightbox = (e) => {
+    imagenActiva.src = e.target.src;
+    lightbox.style.display = 'flex';  
+}
+
+btnCierra.addEventListener('click', () => {
+    lightbox.style.display = 'none';
+});
