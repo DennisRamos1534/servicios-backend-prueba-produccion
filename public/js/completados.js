@@ -5,7 +5,7 @@ const imagenActiva = document.querySelector('#imagen-activa');
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-    const urlReporte = 'http://localhost:3000/api/reporte/completado';
+    const urlReporte = 'http://31.220.31.215:3000/api/reporte/completado';
 
     try {
         const respReporte = await fetch(urlReporte, { 
