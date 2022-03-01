@@ -2,10 +2,12 @@ var tbody = document.querySelector('.tbody');
 const btnCierra = document.querySelector('#btn-cierra');
 const lightbox = document.querySelector('#contenedor-principal');
 const imagenActiva = document.querySelector('#imagen-activa');
+var resultadoReporte = [];
+var resultado = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-    const url = 'http://31.220.31.215:3000/api/login/adminrenovar';
+    const url = 'http://localhost:3000/api/login/adminrenovar';
     const token = localStorage.getItem('x-token');
 
     try {
@@ -24,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             localStorage.setItem('x-token', resultado['token']);
             // hacer el llamado al backend
-            const urlReporte = 'http://31.220.31.215:3000/api/reporte';
+            const urlReporte = 'http://localhost:3000/api/reporte';
 
             try {
                 const respReporte = await fetch(urlReporte, { 
@@ -34,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                 });
 
-                const resultadoReporte = await respReporte.json();
+                resultadoReporte = await respReporte.json();
                 if(resultadoReporte['ok'] == true) {
                     
                     resultadoReporte['reportes'].forEach(element => {
@@ -104,9 +106,9 @@ function cargarEventListener() {
 async function reporteCompletado(e) {
     e.preventDefault();
     if(e.target.classList.contains('seleccionar')) {
-
+        // console.log(e.target.getAttribute('data-id')); // quitar despues de probar que funciona
         const id = e.target.getAttribute('data-id');
-        const urlActualizar = `http://31.220.31.215:3000/api/reporte/${id}`;
+        const urlActualizar = `http://localhost:3000/api/reporte/${id}`;
 
         Swal.fire({
             title: 'Estas seguro(a)?',
@@ -160,10 +162,36 @@ async function hacerPeticion(e, urlActualizarPen) {
             etiqueta.innerHTML = 'terminado';
             // deshabilitamos el btn
             etiqueta.disabled = true;
+
+            eliminarReporte(e);
         }
     } catch (error) {
         console.log(error);
     }
+}
+
+function eliminarReporte(e) {
+    tbody.innerHTML = '';
+    const reporteId = e.target.getAttribute('data-id');
+    resultado = resultadoReporte['reportes'].filter(reporte => reporte.uid !== reporteId);
+    // console.log(resultado);
+    resultado.forEach(element => {
+        // console.log(element['nombre']);
+        const row = document.createElement('tr');
+        row.innerHTML += `
+            
+            <td><a class=" button ${(element['estado'] === false) ? 'pendiente seleccionar' : 'terminado'} pendiente" href="#" data-id="${element['uid']}">${(element['estado'] === false) ? 'terminar' : 'terminado'}</a></td> 
+            <td>${element['nombre']}</td>
+            <td>${element['numero']}</td>
+            <td>${element['tipoServicio']}</td>
+            <td>${element['direccion']}</td>
+            <td>${element['descripcion']}</td>
+            <td><img class="imagen" src="${(element['urlImagen'] === "no-imagen") ? "img/no-image.png" : element['urlImagen']}" alt="${element['descripcion']}"></td>
+            
+            
+        `;
+        tbody.appendChild(row);
+    });
 }
 
 const abreLightbox = (e) => {
