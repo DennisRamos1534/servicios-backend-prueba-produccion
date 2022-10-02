@@ -106,5 +106,5 @@ module.exports = {
     filtrarReporte,
     deleteReporte,
     actualizarEstado,
-    reportesCompletados
+    reportesCompletados,
 }

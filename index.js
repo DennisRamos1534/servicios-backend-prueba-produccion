@@ -20,12 +20,10 @@ require('./sockets/socket');
 
 
 
-
 // Path público
 const publicPath = path.resolve( __dirname, 'public' );
 const publicPathLogin = path.resolve( __dirname, 'public/login' );
 app.use( express.static( publicPath ) );
-
 app.use( express.static( publicPathLogin ));
 
 // Mis rutas

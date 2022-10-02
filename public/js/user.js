@@ -43,7 +43,8 @@ const consultarApi = async (usuario, password) => {
         "password": password
     }
    
-    const url = 'http://31.220.31.215:3000/api/login/admin';
+    // const url = 'http://31.220.31.215:3000/api/login/admin';
+    const url = 'http://localhost:3000/api/login/admin';
 
     try {
         const resp = await fetch(url, {
@@ -58,12 +59,10 @@ const consultarApi = async (usuario, password) => {
         if(!resultado['token']) {
             mostrarError('El usuario o la contraseña son incorrectos');
         } else {
-            // guardar el localStorage
-            localStorage.setItem('x-token', resultado['token']);
-            // localStorage.getItem('x-token');
-            window.location.href = '/';
+            localStorage.setItem('x-token', resultado['token']); // guardar el localStorage
+            window.location.href = '/'; // localStorage.getItem('x-token');
         }
-        console.log(resultado['token']);
+
     } catch (error) {
         console.log(error);
     }

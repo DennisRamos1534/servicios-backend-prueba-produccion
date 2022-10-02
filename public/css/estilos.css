@@ -5,6 +5,10 @@ body {
     background-attachment: fixed;
 }
 
+.fondoNegro {
+    background-color: #2a3338;
+}
+
 .formulario {
     background: rgba(0, 0, 0, 0.1);
     padding: 20px;

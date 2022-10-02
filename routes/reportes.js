@@ -4,7 +4,7 @@
 
  const {Router} = require('express');
  const { check } = require('express-validator');
-const { crearReporte, allReportes, filtrarReporte, deleteReporte, actualizarEstado, reportesCompletados } = require('../controllers/reportes');
+const { crearReporte, allReportes, filtrarReporte, deleteReporte, actualizarEstado, reportesCompletados, reportesDescargar } = require('../controllers/reportes');
  const { validarCampos } = require('../middlewares/validar-campos');
  
  const router = Router();
